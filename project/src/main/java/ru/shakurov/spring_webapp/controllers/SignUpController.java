@@ -1,6 +1,5 @@
 package ru.shakurov.spring_webapp.controllers;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -9,10 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.shakurov.spring_webapp.dto.SignUpDto;
+import ru.shakurov.spring_webapp.forms.SignUpForm;
 import ru.shakurov.spring_webapp.services.SignUpService;
 
-import javax.persistence.EntityExistsException;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -33,9 +31,9 @@ public class SignUpController {
     }
 
     @PostMapping
-    public String signUp(SignUpDto signUpDto) {
+    public String signUp(SignUpForm signUpForm) {
         try {
-            signUpService.signUp(signUpDto);
+            signUpService.signUp(signUpForm);
             return "redirect:/signIn";
         } catch (Exception e) {
             return "redirect:/signUp?error";

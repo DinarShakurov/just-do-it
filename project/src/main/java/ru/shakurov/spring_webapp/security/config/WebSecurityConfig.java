@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/profile")
                 .failureUrl("/signIn?error")
                 .permitAll();
+        http.logout();
     }
 
     @Autowired

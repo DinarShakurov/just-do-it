@@ -1,10 +1,10 @@
 package ru.shakurov.spring_webapp.services;
 
 import ru.shakurov.spring_webapp.dto.EmailDto;
-import ru.shakurov.spring_webapp.dto.SignUpDto;
+import ru.shakurov.spring_webapp.forms.SignUpForm;
 
 public interface SignUpService {
-    EmailDto signUp(SignUpDto signUpDto);
+    EmailDto signUp(SignUpForm signUpForm);
 
     boolean confirm(String link);
 }

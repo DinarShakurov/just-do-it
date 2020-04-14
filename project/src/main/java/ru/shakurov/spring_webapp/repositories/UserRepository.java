@@ -13,4 +13,6 @@ public interface UserRepository {
     List<User> findAll();
 
     int updateStateByLink(String link);
+
+    Optional<User> findSuperAdmin();
 }

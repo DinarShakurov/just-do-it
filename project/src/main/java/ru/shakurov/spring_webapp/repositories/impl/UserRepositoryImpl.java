@@ -28,10 +28,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional
     public void save(User user) {
         entityManager.persist(user);
-
     }
 
     @Override
@@ -47,5 +45,11 @@ public class UserRepositoryImpl implements UserRepository {
         Query query = entityManager.createQuery("update User set state = 'CONFIRMED' where confirmationLink = :link");
         query.setParameter("link", link);
         return query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> findSuperAdmin() {
+        return Optional.ofNullable(entityManager.createQuery("from User where role = 'SUPER_ADMIN'",User.class).getSingleResult());
     }
 }

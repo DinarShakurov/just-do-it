@@ -1,4 +1,4 @@
-package ru.shakurov.spring_webapp.dto;
+package ru.shakurov.spring_webapp.forms;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SignUpDto {
+public class SignUpForm {
     private String email;
     private String password;
     private String username;
