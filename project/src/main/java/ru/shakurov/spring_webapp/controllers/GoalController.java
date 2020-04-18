@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.shakurov.spring_webapp.exceptions.BalanceException;
 import ru.shakurov.spring_webapp.exceptions.DurationException;
 import ru.shakurov.spring_webapp.exceptions.MoneyException;
-import ru.shakurov.spring_webapp.forms.GoalFromProfileForm;
-import ru.shakurov.spring_webapp.forms.GoalForm;
+import ru.shakurov.spring_webapp.forms.UpdateGoalResultForm;
+import ru.shakurov.spring_webapp.forms.GoalCreatingForm;
+import ru.shakurov.spring_webapp.models.User;
 import ru.shakurov.spring_webapp.security.details.UserDetailsImpl;
 import ru.shakurov.spring_webapp.services.GoalService;
 
@@ -42,25 +43,26 @@ public class GoalController {
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/create")
-    public String getCreatingGoalPage(ModelMap modelMap, HttpServletRequest request) {
+    public String getCreatingGoalPage(Authentication authentication, ModelMap modelMap, HttpServletRequest request) {
+        User user = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
         if (request.getParameterMap().containsKey("status")) {
             modelMap.put("status", messageMap.get(request.getParameter("status")));
         }
+        modelMap.put("user", user);
         return "goal_creating";
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/create")
-    private String createGoal(Authentication authentication, GoalForm goalForm, ModelMap modelMap) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+    public String createGoal(GoalCreatingForm goalCreatingForm, ModelMap modelMap) {
         modelMap.put("status", "success");
         try {
-            goalService.create(goalForm, userDetails.getUser());
+            goalService.createGoal(goalCreatingForm);
         } catch (DurationException durationException) {
             modelMap.put("status", "duration");
-        } catch (MoneyException moneyException) {
+        } catch (MoneyException e) {
             modelMap.put("status", "money");
-        } catch (BalanceException balanceException){
+        } catch (BalanceException e) {
             modelMap.put("status", "balance");
         }
         return "redirect:/goal/create";
@@ -68,15 +70,15 @@ public class GoalController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/change")
-    public String changeGoalResult(GoalFromProfileForm dto) {
-        goalService.updateResult(dto);
+    public String changeGoalResult(UpdateGoalResultForm form) {
+        goalService.updateResult(form);
         return "redirect:/profile";
     }
 
-    //TODO
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/complete")
-    public String completeGoal(GoalFromProfileForm dto) {
+    public String completeGoal(UpdateGoalResultForm form) {
+        goalService.completingGoal(form);
         return "redirect:/profile";
     }
 }

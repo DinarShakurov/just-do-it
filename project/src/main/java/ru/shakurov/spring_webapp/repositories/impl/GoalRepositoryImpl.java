@@ -2,6 +2,7 @@ package ru.shakurov.spring_webapp.repositories.impl;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.shakurov.spring_webapp.forms.UpdateGoalResultForm;
 import ru.shakurov.spring_webapp.models.Goal;
 import ru.shakurov.spring_webapp.repositories.GoalRepository;
 
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class GoalRepositoryImpl implements GoalRepository {
@@ -30,11 +32,12 @@ public class GoalRepositoryImpl implements GoalRepository {
     }
 
     @Override
-    @Transactional
-    public void makeGoalCompletedById(Long goalId) {
-        Query query = entityManager.createQuery("update Goal set state = 'COMPLETED' where id = :goalId");
-        query.setParameter("goalId", goalId);
-        query.executeUpdate();
+    public void makeGoalCompletedById(UpdateGoalResultForm form) {
+        entityManager.createQuery("update Goal set state = :state, result = :result where id = :goalId")
+                .setParameter("goalId", form.getGoalId())
+                .setParameter("result", form.getResult())
+                .setParameter("state", form.getGoalState())
+                .executeUpdate();
     }
 
     @Override
@@ -46,7 +49,7 @@ public class GoalRepositoryImpl implements GoalRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Goal> findAllByUserId(Long userId) {
         return entityManager.createQuery("from Goal where user.id = :userId ", Goal.class)
                 .setParameter("userId", userId)
@@ -60,5 +63,12 @@ public class GoalRepositoryImpl implements GoalRepository {
                 .setParameter("result", result)
                 .setParameter("id", goalId)
                 .executeUpdate();
+    }
+
+    @Override
+    public Optional<Goal> findById(Long goalId) {
+        return Optional.ofNullable(entityManager.createQuery("from Goal where id = :id", Goal.class)
+                .setParameter("id", goalId)
+                .getSingleResult());
     }
 }

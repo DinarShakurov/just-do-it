@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface UserRepository {
     Optional<User> findByEmail(String email);
 
+    Optional<User> findById(Long id);
+
     void save(User user);
 
     List<User> findAll();
@@ -15,4 +17,5 @@ public interface UserRepository {
     int updateStateByLink(String link);
 
     Optional<User> findSuperAdmin();
+
 }

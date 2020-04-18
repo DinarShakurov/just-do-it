@@ -4,21 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.shakurov.spring_webapp.exceptions.BalanceException;
-import ru.shakurov.spring_webapp.forms.GoalFromProfileForm;
+import ru.shakurov.spring_webapp.exceptions.MoneyException;
+import ru.shakurov.spring_webapp.forms.UpdateGoalResultForm;
 import ru.shakurov.spring_webapp.dto.GoalDto;
 import ru.shakurov.spring_webapp.exceptions.DurationException;
-import ru.shakurov.spring_webapp.exceptions.MoneyException;
-import ru.shakurov.spring_webapp.forms.GoalForm;
+import ru.shakurov.spring_webapp.forms.GoalCreatingForm;
 import ru.shakurov.spring_webapp.models.Goal;
 import ru.shakurov.spring_webapp.models.GoalState;
-import ru.shakurov.spring_webapp.models.User;
 import ru.shakurov.spring_webapp.repositories.GoalRepository;
-import ru.shakurov.spring_webapp.repositories.MoneyStorageRepository;
 import ru.shakurov.spring_webapp.repositories.UserRepository;
 import ru.shakurov.spring_webapp.services.GoalService;
-import ru.shakurov.spring_webapp.services.GoalTimer;
+import ru.shakurov.spring_webapp.logic.GoalTimer;
+import ru.shakurov.spring_webapp.services.MoneyService;
 
-import javax.annotation.PostConstruct;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -40,45 +38,40 @@ public class GoalServiceImpl implements GoalService {
     @Autowired
     private GoalRepository goalRepository;
     @Autowired
-    private MoneyStorageRepository moneyStorageRepository;
-
-    private Long superAdminId;
-
-    @PostConstruct
-    private void initial() {
-        userRepository.findSuperAdmin().ifPresent(user -> superAdminId = user.getId());
-    }
+    private MoneyService moneyService;
 
     @Override
     @Transactional
-    public void create(GoalForm goalForm, User user) throws DurationException, MoneyException, BalanceException {
-        Long duration = goalForm.getMinute() * MINUTE +
-                goalForm.getHour() * HOUR +
-                goalForm.getDay() * DAY;
+    public void createGoal(GoalCreatingForm goalCreatingForm) throws DurationException, BalanceException, MoneyException {
+        Long duration = goalCreatingForm.getMinute() * MINUTE +
+                goalCreatingForm.getHour() * HOUR +
+                goalCreatingForm.getDay() * DAY;
 
-        checkCreatingException(duration, goalForm, user);
+        checkCreatingExceptions(duration);
+
+        moneyService.paymentForGoal(goalCreatingForm);
 
         Goal goal = Goal.builder()
-                .title(goalForm.getTitle())
-                .description(goalForm.getDescription())
+                .title(goalCreatingForm.getTitle())
+                .description(goalCreatingForm.getDescription())
                 .duration(duration)
-                .money(goalForm.getMoney())
+                .money(goalCreatingForm.getMoney())
                 .result(0)
                 .state(GoalState.ACTIVE)
-                .user(user)
-                .visibleFotOther(goalForm.isVisible())
+                .user(userRepository.findById(goalCreatingForm.getUserId()).get())
+                .visibleFotOther(goalCreatingForm.isVisible())
                 .build();
-        moneyStorageRepository.reduceUserBalanceByUserId(user.getId(), goal.getMoney());
-        moneyStorageRepository.payMoneyToSuperAdmin(superAdminId, goal.getMoney());
+
         goalRepository.save(goal);
 
-        GoalTimer goalTimer = new GoalTimer(goal.getId(), goal.getDuration(), this);
-        goalTimer.start();
+        GoalTimer goalTimer = new GoalTimer(goal.getId(), goal.getDuration());
+        goalTimer.onTimer(this::waitingGoal).start();
+
         timerMap.put(goal.getId(), goalTimer);
     }
 
     @Override
-    public Map<GoalState, List<GoalDto>> getUsersGoals(Long userId) {
+    public Map<GoalState, List<GoalDto>> getUsersGoalsSortedByLeftTime(Long userId) {
         List<Goal> goals = goalRepository.findAllByUserId(userId);
 
         Map<GoalState, List<GoalDto>> map = goals.stream()
@@ -98,45 +91,50 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
-    public void updateResult(GoalFromProfileForm dto) {
+    public void updateResult(UpdateGoalResultForm dto) {
         System.out.println(dto);
         goalRepository.updateResultByGoalId(dto.getResult(), dto.getGoalId());
     }
 
-    //TODO
     @Override
-    public void completingGoal(Long goalId) {
-        goalRepository.makeGoalCompletedById(goalId);
-        timerMap.remove(goalId);
+    @Transactional
+    public void completingGoal(UpdateGoalResultForm form) {
+        form.setGoalState(GoalState.COMPLETED);
+        timerMap.remove(form.getGoalId());
+        goalRepository.makeGoalCompletedById(form);
+
+        Goal goal = goalRepository.findById(form.getGoalId()).get();
+        Long moneyToReturnForUser = goal.getMoney() * goal.getResult() / 100;
+        Long moneyPenalty = goal.getMoney() - moneyToReturnForUser;
+        moneyService.returnMoneyAfterCompletingGoal(moneyToReturnForUser, moneyPenalty, goal.getUser().getId());
+
     }
 
-    //TODO
+    /**
+     * TODO: возможно стоит сделать отдельный таймер, чтобы Goal после окончания таймера, был доступен для заверешния только определённое кол-во времени
+     */
     @Override
     public void waitingGoal(Long goalId) {
         goalRepository.makeGoalWaitedById(goalId);
         timerMap.remove(goalId);
     }
 
-    //TODO
+    /**
+     * TODO: возможно понадобится дополнительная логика при удалении, мб для какой-нибудь статистики (надо будет узнать)
+     */
     @Override
     public void deletingGoal(Long goalId) {
         GoalTimer goalTimer = (GoalTimer) timerMap.get(goalId);
-        goalTimer.flag = false; //stop tread
+        goalTimer.doTimer = false; //stop thread
 
-        timerMap.remove(goalId); //remove from map
+        timerMap.remove(goalId);
         goalRepository.makeGoalDeletedById(goalId);
     }
 
 
-    private void checkCreatingException(Long duration, GoalForm goalForm, User user) throws DurationException, MoneyException, BalanceException {
+    private void checkCreatingExceptions(Long duration) throws DurationException {
         if (duration < MIN_DURATION || duration > MAX_DURATION) {
             throw new DurationException();
-        }
-        if (goalForm.getMoney() < 1) {
-            throw new MoneyException();
-        }
-        if (user.getMoneyStorage().getBalance() < goalForm.getMoney()) {
-            throw new BalanceException();
         }
     }
 }

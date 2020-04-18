@@ -1,28 +1,33 @@
-package ru.shakurov.spring_webapp.services;
+package ru.shakurov.spring_webapp.logic;
 
 import java.util.Date;
+import java.util.function.Consumer;
 
 public class GoalTimer extends Thread {
-    public boolean flag = true;
+    public boolean doTimer = true;
     public static final Long SECOND = 1000L;
 
     private Long durationLeft;
-    private Long goalId;
-    private GoalService goalService;
+    private final Long goalId;
+    private Consumer<Long> waitingGoalConsumer;
 
-    public GoalTimer(Long goalId, Long durationLeft, GoalService goalService) {
+    public GoalTimer(Long goalId, Long durationLeft) {
         this.goalId = goalId;
-        this.goalService = goalService;
         this.durationLeft = durationLeft;
+    }
+
+    public GoalTimer onTimer(Consumer<Long> consumer) {
+        this.waitingGoalConsumer = consumer;
+        return this;
     }
 
     @Override
     public void run() {
-        while (flag) {
+        while (doTimer) {
             try {
                 Thread.sleep(SECOND);
                 durationLeft -= SECOND;
-                System.out.println(new Date() +"        and still " + durationLeft /1000 + " second");
+                System.out.println(new Date() + "        and still " + durationLeft / 1000 + " second");
                 if (durationLeft <= 0) {
                     break;
                 }
@@ -30,8 +35,8 @@ public class GoalTimer extends Thread {
                 throw new IllegalStateException(e);
             }
         }
-        if (flag) {
-            goalService.waitingGoal(goalId);
+        if (doTimer) {
+            waitingGoalConsumer.accept(goalId);
         }
     }
 
@@ -42,6 +47,4 @@ public class GoalTimer extends Thread {
     public Long getGoalId() {
         return goalId;
     }
-
-
 }

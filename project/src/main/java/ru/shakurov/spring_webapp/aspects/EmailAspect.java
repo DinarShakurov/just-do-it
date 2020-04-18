@@ -5,7 +5,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.shakurov.spring_webapp.dto.EmailDto;
-import ru.shakurov.spring_webapp.utils.EmailSender;
+import ru.shakurov.spring_webapp.components.EmailSender;
 
 @Component
 @Aspect

@@ -6,6 +6,8 @@ import ru.shakurov.spring_webapp.repositories.MoneyStorageRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
+
 
 @Repository
 public class MoneyStorageRepositoryImpl implements MoneyStorageRepository {
@@ -18,18 +20,17 @@ public class MoneyStorageRepositoryImpl implements MoneyStorageRepository {
     }
 
     @Override
-    public void reduceUserBalanceByUserId(Long id, Long money) {
-        entityManager.createQuery("update MoneyStorage set balance = balance-:money where user.id = :user_id")
+    public void updateBalanceByUserId(Long id, Long money) {
+        entityManager.createQuery("update MoneyStorage set balance = balance+:money where user.id = :user_id")
                 .setParameter("money", money)
                 .setParameter("user_id", id)
                 .executeUpdate();
     }
 
     @Override
-    public void payMoneyToSuperAdmin(Long superAdminId, Long money) {
-        entityManager.createQuery("update MoneyStorage set balance = balance+:money where user.id = :super_admin_id")
-                .setParameter("money", money)
-                .setParameter("super_admin_id", superAdminId)
-                .executeUpdate();
+    public Long getBalanceByUserId(Long userId) {
+        return entityManager.createQuery("select balance from MoneyStorage where user.id = :user_id", Long.class)
+                .setParameter("user_id", userId)
+                .getSingleResult();
     }
 }

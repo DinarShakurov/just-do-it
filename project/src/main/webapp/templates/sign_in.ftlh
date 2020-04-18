@@ -7,6 +7,8 @@
     <title>Sign In</title>
 </head>
 <body>
+<button onclick="window.location.href='/signUp'">Sign Up</button>
+<br>
 <#if error??>
     <h2 style="text-align: center">
         <span style="color: red; ">Error</span>

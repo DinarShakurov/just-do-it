@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoalFromProfileForm {
-    private Integer result;
-    private Long goalId;
+@Builder
+public class ReplenishBalanceForm {
+    private Long money;
 }

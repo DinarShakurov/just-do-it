@@ -28,6 +28,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(
+                entityManager.createQuery("from User where id = :id", User.class)
+                        .setParameter("id", id)
+                        .getSingleResult()
+        );
+    }
+
+    @Override
     public void save(User user) {
         entityManager.persist(user);
     }
@@ -50,6 +60,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     @Transactional
     public Optional<User> findSuperAdmin() {
-        return Optional.ofNullable(entityManager.createQuery("from User where role = 'SUPER_ADMIN'",User.class).getSingleResult());
+        return Optional.ofNullable(entityManager.createQuery("from User where role = 'SUPER_ADMIN'", User.class).getSingleResult());
     }
 }

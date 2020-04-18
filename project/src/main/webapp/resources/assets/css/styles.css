@@ -1,0 +1,30 @@
+.border-up {
+  border: 1px solid #ff0000;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+.border1 {
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+/*.unliked {
+  color: #767676;
+}
+
+.liked {
+  color: #ff0000;
+  font-weight: 800;
+}*/
+
+.col.menu1 {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+}
+
+.col.content {
+}
+

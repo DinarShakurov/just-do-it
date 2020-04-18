@@ -1,4 +1,4 @@
-package ru.shakurov.spring_webapp.utils;
+package ru.shakurov.spring_webapp.components;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -6,6 +6,7 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import ru.shakurov.spring_webapp.utils.EmailInfo;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;

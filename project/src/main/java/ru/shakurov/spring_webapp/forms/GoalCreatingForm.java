@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GoalForm {
+public class GoalCreatingForm {
     private String title;
     private String description;
     private Long money;
@@ -17,4 +17,5 @@ public class GoalForm {
     private Integer hour;
     private Integer minute;
     private boolean visible;
+    private Long userId;
 }

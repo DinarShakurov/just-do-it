@@ -41,7 +41,6 @@ public class SignUpServiceImpl implements SignUpService {
         userRepository.save(user);
         MoneyStorage storage = MoneyStorage.builder()
                 .balance(0L)
-                .reservedBalance(0L)
                 .user(user)
                 .build();
         moneyStorageRepository.save(storage);

@@ -13,10 +13,12 @@
     </style>
 </head>
 <body>
-<h2>Balance: ${user.balance}</h2>
-Email: ${user.email}
+<h2>Balance: ${profile.user.balance}</h2>
+<button onclick="window.location.href='/money/replenish'">Replenish balance</button>
+<br><br><br>
+Email: ${profile.user.email}
 <br>
-Name: ${user.name}
+Name: ${profile.user.name}
 <br>
 <button onclick="window.location.href='/goal/create'">Create goal</button>
 <form method="post" action="/logout">
@@ -25,7 +27,7 @@ Name: ${user.name}
 </form>
 <br><br>
 <div class="active-goals">
-    <#if active??>
+    <#if profile.active??>
         <h2>Active goals:</h2>
 
         <table style="background-color: darkgreen; border: 4px solid black; width: 100%">
@@ -38,7 +40,7 @@ Name: ${user.name}
                 <th>Visible for other</th>
                 <th>Duration</th>
             </tr>
-            <#list active as goal>
+            <#list profile.active as goal>
                 <tr>
                     <td>
                         Days: ${(goal.durationLeft / 86400000) ? int}
@@ -71,9 +73,8 @@ Name: ${user.name}
 </div>
 
 <div class="waiting-goals">
-    <#if waiting??>
-        <h2 onload="setUp(this)">Waiting goals</h2>
-
+    <#if profile.waiting??>
+        <h2>Waiting goals</h2>
         <table style="background-color: yellow; border: 4px solid black; width:100%">
             <tr>
                 <th>Title</th>
@@ -83,7 +84,7 @@ Name: ${user.name}
                 <th>Visible for other</th>
                 <th>Duration</th>
             </tr>
-            <#list waiting as goal>
+            <#list profile.waiting as goal>
                 <tr>
                     <td>${goal.title}</td>
                     <td>${goal.description}</td>
@@ -93,7 +94,7 @@ Name: ${user.name}
                             <label>result:
                                 <input style="width: 45px" type="number" name="result" value="${goal.result}">
                             </label>
-                            <input type="hidden" name="goal_id" value="${goal.id}">
+                            <input type="hidden" name="goalId" value="${goal.id}">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                             <input type="submit" value="Complete">
                         </form>
@@ -103,7 +104,6 @@ Name: ${user.name}
                 </tr>
             </#list>
         </table>
-
     </#if>
 </div>
 </body>

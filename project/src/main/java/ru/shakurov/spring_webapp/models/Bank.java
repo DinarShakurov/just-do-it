@@ -8,19 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
-@Table(name = "money_storage")
-public class MoneyStorage {
+@Table(name = "bank")
+public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "uzer_id")
-    private User user;
-
     private Long balance;
+
+    @Column(name = "reserved_balance")
+    private Long reservedBalance;
 }
