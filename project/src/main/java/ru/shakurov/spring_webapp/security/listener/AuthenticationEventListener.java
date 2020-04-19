@@ -11,7 +11,7 @@ public class AuthenticationEventListener implements ApplicationListener<Abstract
 
     @Override
     public void onApplicationEvent(AbstractAuthenticationEvent authenticationEvent) {
-        if (authenticationEvent instanceof InteractiveAuthenticationSuccessEvent) {
+        /*if (authenticationEvent instanceof InteractiveAuthenticationSuccessEvent) {
             return;
         }
         Authentication authentication = authenticationEvent.getAuthentication();
@@ -21,7 +21,7 @@ public class AuthenticationEventListener implements ApplicationListener<Abstract
                 authentication.getCredentials() + " " +
                 authentication.getPrincipal() + " " +
                 "\t\tSuccess: " + authentication.isAuthenticated();
-        System.out.println(auditMessage);
+        System.out.println(auditMessage);*/
     }
 
 }
