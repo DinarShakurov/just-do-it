@@ -25,6 +25,9 @@
     <label for="username">Name</label>
     <input type="text" name="username" id="username" placeholder="name" required>
     <br>
+    <label for="alias">Alias</label>
+    <input type="text" name="alias" id="alias" placeholder="alias" required>
+    <br>
     <input type="submit">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 </form>

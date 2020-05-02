@@ -1,0 +1,14 @@
+POST http://localhost:8080/api/signIn
+Content-Type: application/json
+
+{
+  "email": "dinar3d55@mail.ru",
+  "password": "qwe"
+}
+
+###
+
+GET http://localhost:8080/api/profile
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsImVtYWlsIjoiZGluYXIzZDU1QG1haWwucnUiLCJuYW1lIjoiRGluYXIiLCJyb2xlIjoiVVNFUiJ9.yXiz2SsLkdJSLv24FB4D3DmZeC9ZIbMwQdczQh6DUOQ
+
+###

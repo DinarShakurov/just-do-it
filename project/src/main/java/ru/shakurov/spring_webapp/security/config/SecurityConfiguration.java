@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.GenericFilterBean;
+import ru.shakurov.spring_webapp.security.handlers.AfterSuccessAuthenticationHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +28,7 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     @Order(1)
     @Configuration
@@ -85,6 +87,9 @@ public class SecurityConfiguration {
         @Autowired
         private PasswordEncoder passwordEncoder;
 
+        @Autowired
+        private AfterSuccessAuthenticationHandler successAuthenticationHandler;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
@@ -95,6 +100,7 @@ public class SecurityConfiguration {
                     .loginPage("/signIn")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/profile")
+                    .successHandler(successAuthenticationHandler)
                     .failureUrl("/signIn?error")
                     .permitAll();
             http.logout()

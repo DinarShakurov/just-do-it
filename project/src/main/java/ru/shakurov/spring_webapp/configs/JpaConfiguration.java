@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -19,8 +20,9 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableTransactionManagement
 @PropertySource(value = "classpath:application.properties")
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "ru.shakurov.spring_webapp.repositories")
 public class JpaConfiguration {
     @Autowired
     private Environment environment;

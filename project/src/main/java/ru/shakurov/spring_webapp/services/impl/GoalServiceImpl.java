@@ -28,8 +28,8 @@ public class GoalServiceImpl implements GoalService {
     public static final Long MINUTE = 60000L;
     public static final Long HOUR = 3600000L;
     public static final Long DAY = 86400000L;
-    private static final Long MAX_DURATION = 31708800000L;
-    private static final Long MIN_DURATION = 60000L;
+    public static final Long MAX_DURATION = 31708800000L;
+    public static final Long MIN_DURATION = 60000L;
 
     private static final Map<Long, Thread> timerMap = new HashMap<>();
 
@@ -137,4 +137,5 @@ public class GoalServiceImpl implements GoalService {
             throw new DurationException();
         }
     }
+
 }

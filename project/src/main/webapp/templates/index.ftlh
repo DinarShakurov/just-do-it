@@ -1,3 +1,4 @@
+<#import "goals_macro.ftlh" as goals_macro>
 <!doctype html>
 <html lang="ru">
 <head>
@@ -8,6 +9,12 @@
     <link rel="stylesheet" href="/resources/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/assets/css/styles.css">
     <link rel="stylesheet" href="/resources/assets/css/Team-Grid.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_parameter" content="${_csrf.parameterName}"/>
 </head>
 
 <body class="d-lg-flex" style="background-color: rgb(249,249,249);">
@@ -141,43 +148,7 @@
                             <#if profile.completed??>
                                 <div id="task-feed">
                                     <#list profile.completed as goal>
-                                        <div id="task-holder" class="border1"
-                                             style="background-color: #acffb4;margin-bottom: 10px;margin-top: 10px;">
-                                            <div id="task-info-section">
-                                                <div>
-                                                    <div class="row" style="margin-left: 0;margin-right: 0;">
-                                                        <div class="col d-lg-flex justify-content-lg-center">
-                                                            <div>
-                                                                <h4>${goal.title}</h4>
-                                                                <p class="text-break">${goal.description}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col d-flex d-lg-flex flex-column justify-content-lg-start align-items-lg-center">
-                                                            <h4>${goal.money}$ </h4>
-                                                        </div>
-                                                        <div class="col d-lg-flex flex-column justify-content-lg-start align-items-lg-center">
-                                                            <h4>Result: ${goal.result}%</h4>
-                                                            <h5>Day: ${goal.day}<br>Hour: ${goal.hour}<br>Minute: ${goal.minute}</h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="margin-right: 0;margin-left: 0;">
-                                                        <div class="col">
-                                                            <div class="progress" style="background-color: rgb(0,0,0);">
-                                                                <div class="progress-bar bg-success" aria-valuenow="${goal.result}"
-                                                                     aria-valuemin="0"
-                                                                     aria-valuemax="100" style="width: ${goal.result}%;">${goal.result}%
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="comments-section" class="border-up">
-                                                <div id="comment-section">
-                                                    <p>Comment section</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <@goals_macro.out goal/>
                                     </#list>
                                 </div>
                             </#if>

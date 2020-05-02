@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SignUpForm {
-    private String email;
-    private String password;
-    private String username;
-    private String alias;
+public class CommentForm {
+    private Long goalId;
+    private String text;
 }

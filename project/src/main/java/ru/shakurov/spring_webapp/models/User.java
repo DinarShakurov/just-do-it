@@ -26,6 +26,8 @@ public class User {
 
     private String name;
 
+    private String alias;
+
     @Column(name = "confirmation_link")
     private String confirmationLink;
 

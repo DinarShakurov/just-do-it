@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 @PreAuthorize("permitAll()")
 public class SignInController {
 
-    @Autowired
-    private GoalService goalService;
     @GetMapping
     public String getSignInPage(Authentication authentication, Model model, HttpServletRequest request) {
         if (authentication != null) {

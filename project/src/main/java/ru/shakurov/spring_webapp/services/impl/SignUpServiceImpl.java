@@ -33,6 +33,7 @@ public class SignUpServiceImpl implements SignUpService {
                 .email(signUpForm.getEmail())
                 .hashPassword(passwordEncoder.encode(signUpForm.getPassword()))
                 .name(signUpForm.getUsername())
+                .alias(signUpForm.getAlias())
                 .role(Role.USER)
                 .state(State.NOT_CONFIRMED)
                 .status(Status.ACTIVE)
