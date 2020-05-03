@@ -42,7 +42,7 @@
             <div class="col d-lg-flex justify-content-lg-start align-items-lg-center"
                  style="max-width: 10%;padding-right: 0px;padding-left: 0px; cursor: pointer"
                  onclick="sendComment(${commentsDto.goalId}, $('#text-area-post-'+${commentsDto.goalId}).val());">
-                <div id="send-button-<#--${post.id}-->">
+                <div id="send-button-${commentsDto.goalId}">
                     <i class="fas fa-paper-plane"
                        style="color: rgb(122,122,122);font-size: 20px;"></i>
                 </div>

@@ -26,7 +26,7 @@ public class CommentsController {
 
     @PostMapping("/send")
     @ResponseStatus(value = HttpStatus.OK)//если ошибка надо переделать
-    public void sendComment(CommentForm commentForm) {
+    public void sendComment(@RequestBody CommentForm commentForm) {
         commentService.sendComment(commentForm);
     }
 

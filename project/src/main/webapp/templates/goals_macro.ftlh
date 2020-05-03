@@ -37,15 +37,25 @@
     </script>
 
     <script>
-
         function sendComment(id, text) {
             var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_parameter']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
 
-            $.post("/comment/send?${_csrf.parameterName}=${_csrf.token}", {
+            let body = {
                 text: text,
                 goalId: id
+            }
+            $.ajax({
+                url: "/comment/send",
+                method: "POST",
+                data: JSON.stringify(body),
+                contentType: "application/json",
+                dataType: "json",
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
             })
+
         }
     </script>
 
