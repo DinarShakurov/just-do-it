@@ -5,13 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SignUpForm {
+    @Email(message = "{error.incorrect.email}")
     private String email;
+
     private String password;
+
     private String username;
+
+    @Size(min = 1, message = "{error.null.alias}")
     private String alias;
 }

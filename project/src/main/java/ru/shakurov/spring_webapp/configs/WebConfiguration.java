@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -20,7 +21,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -74,14 +74,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        /*System.out.println("registry");*/
         registry.addInterceptor(localeChangeInterceptor());
     }
 
     // храним информацию о выбранном языке в куках
     @Bean
     public LocaleResolver localeResolver() {
-        /*System.out.println("resolver");*/
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setCookieName("localeInfo");
         cookieLocaleResolver.setCookieMaxAge(60 * 60 * 24 * 365);
@@ -93,25 +91,14 @@ public class WebConfiguration implements WebMvcConfigurer {
     // установит куку с нужным значением
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
-        /*System.out.println("interceptor");*/
-
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
 
-/*    @Bean
-    public LocalValidatorFactoryBean getValidator() {
-        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-        bean.setValidationMessageSource(messageSource());
-        return bean;
-    }*/
-
     // откуда читать ключи с языками
     @Bean
     public MessageSource messageSource() {
-        /*System.out.println("messageSource");*/
-
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
@@ -120,10 +107,15 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public MessageCodesResolver getMessageCodesResolver() {
-        /*System.out.println("messageCodesResolver");*/
-
         DefaultMessageCodesResolver codesResolver = new DefaultMessageCodesResolver();
         codesResolver.setMessageCodeFormatter(DefaultMessageCodesResolver.Format.POSTFIX_ERROR_CODE);
         return codesResolver;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean getValidator() {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
     }
 }

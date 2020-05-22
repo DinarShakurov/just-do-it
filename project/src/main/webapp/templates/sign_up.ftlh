@@ -1,11 +1,17 @@
 <!doctype html>
 <html lang="en">
+<#import "spring.ftl" as spring/>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up</title>
 </head>
+<style>
+    .error {
+        color: #ff0000;
+    }
+</style>
 <body>
 <#if error??>
     <h2 style="text-align: center">
@@ -15,21 +21,28 @@
 <h2>Welcome, noname</h2>
 <b>Sign Up</b>
 <br>
-<form action="/signUp" method="post">
-    <label for="email">Email: </label>
-    <input type="text" name="email" id="email" placeholder="email" required>
-    <br>
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password" placeholder="password" required>
-    <br>
-    <label for="username">Name</label>
-    <input type="text" name="username" id="username" placeholder="name" required>
-    <br>
-    <label for="alias">Alias</label>
-    <input type="text" name="alias" id="alias" placeholder="alias" required>
-    <br>
-    <input type="submit">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-</form>
+<div>
+    <@spring.bind "signUpForm"/>
+    <form action="/signUp" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        Email:
+        <@spring.formInput "signUpForm.email"/>
+        <@spring.showErrors "<br>", "error"/>
+        <br>
+        Password:
+        <@spring.formInput "signUpForm.password"/>
+        <@spring.showErrors "<br>", "error"/>
+        <br>
+        Name:
+        <@spring.formInput "signUpForm.username"/>
+        <@spring.showErrors "<br>", "error"/>
+        <br>
+        Alias:
+        <@spring.formInput "signUpForm.alias"/>
+        <@spring.showErrors "<br>", "error"/>
+        <br>
+        <input type="submit">
+    </form>
+</div>
 </body>
 </html>
