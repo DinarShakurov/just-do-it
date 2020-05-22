@@ -2,7 +2,6 @@ package ru.shakurov.spring_webapp.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.shakurov.spring_webapp.dto.GoalDto;
 import ru.shakurov.spring_webapp.dto.ProfileDto;
 import ru.shakurov.spring_webapp.dto.UserDto;

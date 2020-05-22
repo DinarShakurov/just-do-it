@@ -14,7 +14,7 @@ import ru.shakurov.spring_webapp.models.GoalState;
 import ru.shakurov.spring_webapp.repositories.GoalRepository;
 import ru.shakurov.spring_webapp.repositories.UserRepository;
 import ru.shakurov.spring_webapp.services.GoalService;
-import ru.shakurov.spring_webapp.logic.GoalTimer;
+import ru.shakurov.spring_webapp.timer.GoalTimer;
 import ru.shakurov.spring_webapp.services.MoneyService;
 
 import java.util.Comparator;

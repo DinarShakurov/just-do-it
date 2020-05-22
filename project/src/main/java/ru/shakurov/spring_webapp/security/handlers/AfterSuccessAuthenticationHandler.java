@@ -15,19 +15,19 @@ import java.io.IOException;
 
 @Component
 public class AfterSuccessAuthenticationHandler implements AuthenticationSuccessHandler {
-    @Autowired
-    private UserSessionData userSessionData;
+/*    @Autowired
+    private UserSessionData userSessionData;*/
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        /*UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         User user = userDetails.getUser();
         userSessionData.alias(user.getAlias())
                 .email(user.getEmail())
                 .id(user.getId())
                 .role(user.getRole())
                 .user(user);
-
+*/
         httpServletResponse.sendRedirect("/profile");
     }
 }

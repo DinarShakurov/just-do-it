@@ -50,7 +50,7 @@
     <input type="radio" id="visible_2"
            name="visible" value="false">
     <label for="visible_2">No</label>
-    <input type="hidden" name="userId" value="${user.id}">
+    <#--<input type="hidden" name="userId" value="${user.id}">-->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
     <input type="submit">
 </form>

@@ -10,6 +10,9 @@ import ru.shakurov.spring_webapp.dto.UserDto;
 import ru.shakurov.spring_webapp.models.User;
 import ru.shakurov.spring_webapp.security.details.UserDetailsImpl;
 
+/**
+ * Пока никак не используется
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {

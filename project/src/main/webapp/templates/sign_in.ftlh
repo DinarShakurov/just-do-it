@@ -11,7 +11,7 @@
 <br>
 <#if error??>
     <h2 style="text-align: center">
-        <span style="color: red; ">Error</span>
+        <span style="color: red; ">${error.message}</span>
     </h2>
 
 </#if>
@@ -25,7 +25,7 @@
     <label for="password">Password: </label>
     <input type="password" name="password" id="password" placeholder="password" required>
     <br>
-    <input type="checkbox" name="remember-me" id="remember-me" value="true">
+    <input type="checkbox" name="remember-me" id="remember-me">
     <label for="remember-me">Remember me</label>
     <br>
     <input type="submit">

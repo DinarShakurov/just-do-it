@@ -38,12 +38,12 @@ public class JpaConfiguration {
         entityManagerFactory.setDataSource(hikariDataSource());
         entityManagerFactory.setPackagesToScan("ru.shakurov.spring_webapp");
         entityManagerFactory.setJpaVendorAdapter(hibernateJpaVendorAdapter);
-        entityManagerFactory.setJpaProperties(additionalProperties());
+        entityManagerFactory.setJpaProperties(additionalHibernateProperties());
         return entityManagerFactory;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
@@ -64,7 +64,7 @@ public class JpaConfiguration {
         return config;
     }
 
-    private Properties additionalProperties() {
+    private Properties additionalHibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");

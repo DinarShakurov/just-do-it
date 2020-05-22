@@ -43,20 +43,20 @@ public class GoalController {
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/create")
-    public String getCreatingGoalPage(Authentication authentication, ModelMap modelMap, HttpServletRequest request) {
-        User user = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
+    public String getCreatingGoalPage( ModelMap modelMap, HttpServletRequest request) {
         if (request.getParameterMap().containsKey("status")) {
             modelMap.put("status", messageMap.get(request.getParameter("status")));
         }
-        modelMap.put("user", user);
         return "goal_creating";
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/create")
-    public String createGoal(GoalCreatingForm goalCreatingForm, ModelMap modelMap) {
+    public String createGoal(Authentication authentication, GoalCreatingForm goalCreatingForm, ModelMap modelMap) {
         modelMap.put("status", "success");
         try {
+            User user = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
+            goalCreatingForm.setUserId(user.getId());
             goalService.createGoal(goalCreatingForm);
         } catch (DurationException durationException) {
             modelMap.put("status", "duration");

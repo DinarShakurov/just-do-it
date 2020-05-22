@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -11,8 +12,7 @@ import javax.validation.constraints.Email;
 @Builder
 @Entity
 @Table(name = "uzer")
-@ToString(exclude = "moneyStorage")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
