@@ -1,5 +1,6 @@
 <#import "goals_macro.ftlh" as goals_macro>
 <!doctype html>
+<#import "spring.ftl" as spring />
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -161,6 +162,8 @@
     </div>
     <div class="col d-xl-flex justify-content-xl-start menu1" style="background-color: #000000;max-width: 22%;">
         <div>
+            <h2 style="color: rgb(255,255,255);"><@spring.message 'profile.test'/></h2>
+
             <h2 style="color: rgb(255,255,255);">Email: ${profile.user.email}</h2>
             <h2 style="color: rgb(255,255,255);">Name: ${profile.user.name}</h2>
             <h2 style="color: rgb(255,255,255);">Balance: ${profile.user.balance}$</h2>

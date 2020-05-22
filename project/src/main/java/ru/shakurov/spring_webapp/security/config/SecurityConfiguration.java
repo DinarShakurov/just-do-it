@@ -35,7 +35,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-
     @Order(1)
     @Configuration
     public static class RestSecurityConfiguration extends WebSecurityConfigurerAdapter {
