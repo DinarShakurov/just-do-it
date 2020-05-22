@@ -15,7 +15,7 @@ public class DataBaseInit {
     private DataSource dataSource;
 
     @PostConstruct
-    public void init() {
+    private void init() {
         Resource resource = new ClassPathResource("schema.sql");
 
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
