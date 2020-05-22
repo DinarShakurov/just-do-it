@@ -1,8 +1,9 @@
-package ru.shakurov.spring_webapp.configs;
+package ru.shakurov.spring_webapp.init;
 
 import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import ru.shakurov.spring_webapp.configs.WebConfiguration;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
