@@ -162,17 +162,15 @@
     </div>
     <div class="col d-xl-flex justify-content-xl-start menu1" style="background-color: #000000;max-width: 22%;">
         <div>
-            <h2 style="color: rgb(255,255,255);"><@spring.message 'profile.test'/></h2>
-
             <h2 style="color: rgb(255,255,255);">Email: ${profile.user.email}</h2>
             <h2 style="color: rgb(255,255,255);">Name: ${profile.user.name}</h2>
             <h2 style="color: rgb(255,255,255);">Balance: ${profile.user.balance}$</h2>
-            <button class="btn btn-primary" onclick="window.location.href='/money/replenish'">Replenish balance</button>
+            <button class="btn btn-primary" onclick="window.location.href='/money/replenish'"><@spring.message "profile.button.replenish_balance"/></button>
             <br>
-            <button class="btn btn-primary" onclick="window.location.href='/goal/create'">Create goal</button>
+            <button class="btn btn-primary" onclick="window.location.href='/goal/create'"><@spring.message "profile.button.create_goal"/></button>
             <br>
-            <form method="post" action="/logout">
-                <button class="btn btn-primary" type="submit">Log Out</button>
+            <form method="get" action="/logout">
+                <button class="btn btn-primary" type="submit"><@spring.message "profile.button.log_out"/></button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </form>
         </div>

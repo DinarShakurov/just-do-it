@@ -1,12 +1,8 @@
 package ru.shakurov.spring_webapp.security.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import ru.shakurov.spring_webapp.models.User;
-import ru.shakurov.spring_webapp.models.UserSessionData;
-import ru.shakurov.spring_webapp.security.details.UserDetailsImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

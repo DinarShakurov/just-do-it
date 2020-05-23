@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.shakurov.spring_webapp.models.User;
 
 @Data
 @NoArgsConstructor
@@ -12,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class CommentForm {
     private Long goalId;
     private String text;
+    private User user;
 }

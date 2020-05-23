@@ -6,7 +6,6 @@ import ru.shakurov.spring_webapp.components.CashedIdPool;
 import ru.shakurov.spring_webapp.dto.CommentsDto;
 import ru.shakurov.spring_webapp.forms.CommentForm;
 import ru.shakurov.spring_webapp.models.Comment;
-import ru.shakurov.spring_webapp.models.UserSessionData;
 import ru.shakurov.spring_webapp.repositories.CommentRepository;
 import ru.shakurov.spring_webapp.repositories.GoalRepository;
 import ru.shakurov.spring_webapp.services.CommentService;
@@ -24,14 +23,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CashedIdPool cashedIdPool;
-    @Autowired
-    private UserSessionData userSessionData;
 
     @Override
     public void sendComment(CommentForm commentForm) {
         Comment comment = Comment.builder()
-                .user(userSessionData.user())
-                .sendingTime(LocalDateTime.now())
+                .user(commentForm.getUser())
+                .sendingTime(LocalDateTime.now())   //не круто
                 .text(commentForm.getText())
                 .goal(goalRepository.findById(commentForm.getGoalId())
                         .orElseThrow(IllegalArgumentException::new))

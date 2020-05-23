@@ -16,7 +16,8 @@
                         <div class="col align-self-start" style="max-width: 80%;">
                             <p class="text-left"
                                style="font-size: 15px;filter: blur(0px);font-style: normal;font-weight: bold;margin: 0;">
-                                @${comment.user.alias}</p>
+                                @${comment.user.alias}
+                            </p>
                             <p class="text-break text-left" style="font-size: 14px;">${comment.text}
                             </p>
                         </div>

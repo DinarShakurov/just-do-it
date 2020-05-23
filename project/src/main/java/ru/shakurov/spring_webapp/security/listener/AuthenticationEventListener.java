@@ -1,14 +1,8 @@
 package ru.shakurov.spring_webapp.security.listener;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import ru.shakurov.spring_webapp.models.User;
-import ru.shakurov.spring_webapp.models.UserSessionData;
-import ru.shakurov.spring_webapp.security.details.UserDetailsImpl;
 
 @Component
 public class AuthenticationEventListener implements ApplicationListener<AbstractAuthenticationEvent> {
