@@ -12,3 +12,13 @@ GET http://localhost:8080/api/profile
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsImVtYWlsIjoiZGluYXIzZDU1QG1haWwucnUiLCJuYW1lIjoiRGluYXIiLCJyb2xlIjoiVVNFUiJ9.yXiz2SsLkdJSLv24FB4D3DmZeC9ZIbMwQdczQh6DUOQ
 
 ###
+
+POST http://localhost:8080/api/signUp
+Content-Type: application/json
+
+{
+  "email": "asdf",
+  "password": "asd",
+  "username": "d",
+  "alias": null
+}
