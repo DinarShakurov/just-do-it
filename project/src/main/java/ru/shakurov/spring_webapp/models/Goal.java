@@ -14,6 +14,9 @@ import javax.validation.constraints.Min;
 @Table(name = "goal")
 @ToString(exclude = "user")
 public class Goal {
+    public static final Long MAX_DURATION = 31708800000L;
+    public static final Long MIN_DURATION = 60000L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,15 +29,10 @@ public class Goal {
 
     private String description;
 
-    @Min(1)
     private Long money;
 
-    @Max(31708800000L)
-    @Min(60000L)
     private Long duration;
 
-    @Max(100)
-    @Min(0)
     private Integer result;
 
     @Column(name = "visible_for_other")

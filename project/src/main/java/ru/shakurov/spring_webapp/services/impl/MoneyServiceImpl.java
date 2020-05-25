@@ -12,7 +12,7 @@ import ru.shakurov.spring_webapp.services.MoneyService;
 
 @Service
 public class MoneyServiceImpl implements MoneyService {
-    public static Long MIN_PAYMENT = 1L;
+    /*public static Long MIN_PAYMENT = 1L;*/
     @Autowired
     private MoneyStorageRepository moneyStorageRepository;
     @Autowired
@@ -25,7 +25,7 @@ public class MoneyServiceImpl implements MoneyService {
     }
 
     @Override
-    public void paymentForGoal(GoalCreatingForm goalCreatingForm) throws BalanceException, MoneyException {
+    public void paymentForGoal(GoalCreatingForm goalCreatingForm) throws BalanceException/*, MoneyException*/ {
         checkPaymentForGoalExceptions(goalCreatingForm);
         moneyStorageRepository.updateBalanceByUserId(goalCreatingForm.getUserId(), -goalCreatingForm.getMoney());
         bankRepository.updateReservedBalance(1L, goalCreatingForm.getMoney());
@@ -37,10 +37,10 @@ public class MoneyServiceImpl implements MoneyService {
         bankRepository.update(1L, moneyPenalty, -(moneyToReturnForUser + moneyPenalty));
     }
 
-    private void checkPaymentForGoalExceptions(GoalCreatingForm goalCreatingForm) throws MoneyException, BalanceException {
-        if (goalCreatingForm.getMoney() < MIN_PAYMENT) {
+    private void checkPaymentForGoalExceptions(GoalCreatingForm goalCreatingForm) throws/* MoneyException,*/ BalanceException {
+        /*if (goalCreatingForm.getMoney() < MIN_PAYMENT) {
             throw new MoneyException();
-        }
+        }*/
         if (moneyStorageRepository.getBalanceByUserId(goalCreatingForm.getUserId()) < goalCreatingForm.getMoney()) {
             throw new BalanceException();
         }

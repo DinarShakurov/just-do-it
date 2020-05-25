@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +20,6 @@ public class SignUpForm {
 
     private String username;
 
-    @Size(min = 1, message = "{error.null.alias}")
-    @NotNull(message = "{error.null.alias}")
+    @NotBlank(message = "{error.null.alias}")
     private String alias;
 }

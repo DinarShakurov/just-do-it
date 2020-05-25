@@ -18,7 +18,7 @@ public interface GoalService {
 
     void deletingGoal(Long goalId);
 
-    void createGoal(GoalCreatingForm goalCreatingForm) throws DurationException, BalanceException, MoneyException;
+    void createGoal(GoalCreatingForm goalCreatingForm) throws /*DurationException,*/ BalanceException/*, MoneyException*/;
 
     Map<GoalState, List<GoalDto>> getUsersGoalsSortedByLeftTime(Long userId);
 

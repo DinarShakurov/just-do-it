@@ -28,8 +28,8 @@ public class GoalServiceImpl implements GoalService {
     public static final Long MINUTE = 60000L;
     public static final Long HOUR = 3600000L;
     public static final Long DAY = 86400000L;
-    public static final Long MAX_DURATION = 31708800000L;
-    public static final Long MIN_DURATION = 60000L;
+    /*public static final Long MAX_DURATION = 31708800000L;
+    public static final Long MIN_DURATION = 60000L;*/
 
     private static final Map<Long, Thread> timerMap = new HashMap<>();
 
@@ -42,12 +42,12 @@ public class GoalServiceImpl implements GoalService {
 
     @Override
     @Transactional
-    public void createGoal(GoalCreatingForm goalCreatingForm) throws DurationException, BalanceException, MoneyException {
+    public void createGoal(GoalCreatingForm goalCreatingForm) throws /*DurationException, */BalanceException/*, MoneyException*/ {
         Long duration = goalCreatingForm.getMinute() * MINUTE +
                 goalCreatingForm.getHour() * HOUR +
                 goalCreatingForm.getDay() * DAY;
 
-        checkCreatingExceptions(duration);
+        /*checkCreatingExceptions(duration);*/
 
         moneyService.paymentForGoal(goalCreatingForm);
 
@@ -132,10 +132,10 @@ public class GoalServiceImpl implements GoalService {
     }
 
 
-    private void checkCreatingExceptions(Long duration) throws DurationException {
+    /*private void checkCreatingExceptions(Long duration) throws DurationException {
         if (duration < MIN_DURATION || duration > MAX_DURATION) {
             throw new DurationException();
         }
-    }
+    }*/
 
 }
