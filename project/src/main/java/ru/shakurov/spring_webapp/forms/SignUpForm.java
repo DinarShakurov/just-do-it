@@ -16,8 +16,10 @@ public class SignUpForm {
     @Email(message = "{error.incorrect.email}")
     private String email;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String username;
 
     @NotBlank(message = "{error.null.alias}")
