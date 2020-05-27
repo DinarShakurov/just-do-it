@@ -1,4 +1,4 @@
-package ru.shakurov.spring_webapp.security.jwt.authentication;
+package ru.shakurov.spring_webapp.vk.authentication;
 
 import lombok.Setter;
 import org.springframework.security.core.Authentication;
@@ -7,15 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class JwtAuthentication implements Authentication {
-
+public class VkAuthentication implements Authentication {
     private boolean isAuthenticated = false;
-    private String token;
+    private String vkToken;
     @Setter
     private UserDetails userDetails;
 
-    public JwtAuthentication(String token) {
-        this.token = token;
+    public VkAuthentication(String vkToken) {
+        this.vkToken = vkToken;
     }
 
     @Override
@@ -50,6 +49,6 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return this.token;
+        return vkToken;
     }
 }

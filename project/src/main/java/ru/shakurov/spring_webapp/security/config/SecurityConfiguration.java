@@ -102,13 +102,14 @@ public class SecurityConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
                     .antMatchers("/signUp/**").permitAll()
+                    .antMatchers("/vk/**").permitAll()
                     .antMatchers("/resources/**").permitAll()
                     .anyRequest().authenticated();
             http.formLogin()
                     .loginPage("/signIn")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/profile")
-                    .successHandler(successAuthenticationHandler)
+                    /*.successHandler(successAuthenticationHandler)*/
                     .failureUrl("/signIn?error")
                     .permitAll();
             http.rememberMe()
@@ -129,7 +130,7 @@ public class SecurityConfiguration {
         }
 
         @Bean
-        public PersistentTokenRepository persistentTokenRepository(){
+        public PersistentTokenRepository persistentTokenRepository() {
             JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
             jdbcTokenRepository.setDataSource(dataSource);
             return jdbcTokenRepository;

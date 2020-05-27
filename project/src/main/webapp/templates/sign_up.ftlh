@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/resources/js/sign_up_validation.js"></script>
 </head>
 <style>
     .error {
@@ -23,7 +25,7 @@
 <br>
 <div>
     <@spring.bind "signUpForm"/>
-    <form action="/signUp" method="post">
+    <form id="signUpForm" action="/signUp" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         Email:
         <@spring.formInput "signUpForm.email"/>
@@ -41,6 +43,7 @@
         <@spring.formInput "signUpForm.alias"/>
         <@spring.showErrors "<br>", "error"/>
         <br>
+        <input type="button" value="js-valid" onclick="trySubmit()">
         <input type="submit">
     </form>
 </div>

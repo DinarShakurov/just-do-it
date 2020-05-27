@@ -18,4 +18,5 @@ public interface UserRepository {
 
     Optional<User> findSuperAdmin();
 
+    Optional<User> findVkUserByEmail(String email);
 }

@@ -62,4 +62,15 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findSuperAdmin() {
         return Optional.ofNullable(entityManager.createQuery("from User where role = 'SUPER_ADMIN'", User.class).getSingleResult());
     }
+
+    @Override
+    public Optional<User> findVkUserByEmail(String email) {
+        TypedQuery<User> tq = entityManager.createQuery("from User where email = :email and hash_password = null", User.class);
+        tq.setParameter("email", email);
+        try {
+            return Optional.ofNullable(tq.getSingleResult());
+        } catch (NoResultException | NonUniqueResultException nre) {
+            return Optional.empty();
+        }
+    }
 }
